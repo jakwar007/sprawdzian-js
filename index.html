@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkusz-sprawdzian funkcja kwadratowa</title>
+    <style>
+        #result{
+            color: green;
+            font-size: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <span>Podaj a: </span>
+        <input type="number" id="a" placeholder="Podaj współczynnik a..."> <br> <br>
+        <span>Podaj b: </span>
+        <input type="number" id="b" placeholder="Podaj współczynnik b..."> <br> <br>
+        <span>Podaj c: </span>
+        <input type="number" id="c" placeholder="Podaj współczynnik c..."> <br> <br>
+        <button onclick="calculate()">Oblicz</button> <br>
+        <p style="display:hidden" id="result"></p>
+        <canvas id="funkcja" width="300" height="300">
+        </canvas>
+    </div>
+    <script>
+
+
+        function calculate() {
+            const war_a = parseFloat(document.getElementById("a").value) ?? 0;
+            const war_b = parseFloat(document.getElementById("b").value) ?? 0;
+            const war_c = parseFloat(document.getElementById("c").value) ?? 0;
+            const result = document.getElementById("result");
+            const canvas = document.getElementById("funkcja");
+            let p = 0;
+            let q = 0;
+            let delta = 0;
+            let x1 = 0;
+            let x2 = 0;
+            if (war_a == 0) {
+                result.style = 'display: block';
+                result.innerHTML = 'To nie jest funkcja kwadratowa';
+                return;
+            }
+            p = -war_b/(2*war_a);
+            delta = Math.pow(war_b, 2) - (4*war_a*war_c);
+            q = -delta/(4*war_a);
+            result.style = 'display: block';
+            result.innerHTML = `W = (${p.toFixed(2)}, ${q.toFixed(2)})<br>delta = ${delta}<br>`;
+            let p_kanoniczna = p > 0 ? `+${p.toFixed(2)}` : `${p.toFixed(2)}`;
+            let q_kanoniczna = q > 0 ? `+${q.toFixed(2)}` : `${q.toFixed(2)}`;
+            result.innerHTML += `Postać kanoniczna: f(x) = ${war_a}(x${p_kanoniczna})^2 ${q_kanoniczna}<br>`;
+            if (delta >= 0) {
+                x1 = (-war_b-Math.sqrt(delta))/2*war_a;
+                x2 = (-war_b+Math.sqrt(delta))/2*war_a;
+                result.innerHTML += `x1 = ${x1.toFixed(2)}   x2 = ${x2.toFixed(2)}<br>`;
+                let x1_iloczynowa = x1 > 0 ? `+${x1.toFixed(2)}` : `${x1.toFixed(2)}`;
+                let x2_iloczynowa = x2 > 0 ? `+${x2.toFixed(2)}` : `${x2.toFixed(2)}`;
+                result.innerHTML += `Postać iloczynowa: f(x) = ${war_a}(x${x1_iloczynowa})(x${x2_iloczynowa})<br>`;
+            } else {
+                result.innerHTML += `Funkcja nie ma pierwiastków<br>`;
+            }
+
+            if (war_a>0) {
+                result.innerHTML += `Funkcja maleje w przedziale od (-&infin;;${p_kanoniczna}), rośnie w przedziale od (${p_kanoniczna};&infin;)`; 
+            } else {
+                result.innerHTML += `Funkcja rośnie w przedziale od (-&infin;;${p_kanoniczna}), a maleje w przedziale od (${p_kanoniczna};&infin;)`;
+            }
+
+        }
+            
+    </script>
+</body>
+</html>
